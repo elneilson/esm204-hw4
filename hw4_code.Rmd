@@ -14,14 +14,40 @@ library(here)
 
 ```{r}
 # Read in the data
-damages <- read_csv(here("data", "damages.csv")) %>% 
+damage <- read_csv(here("data", "damages.csv")) %>% 
   clean_names()
 warming <- read_csv(here("data", "warming.csv")) %>% 
   clean_names()
 ```
 
 ```{r}
-# Quadratic formula
+# Visualize the data
+ggplot(data = damage, aes(x = warming, y = damages)) + 
+  geom_point() +
+  theme_minimal()
+
+# Fit simple linear regression model first to explore
+damages_lm <- lm(damages ~ warming, data = damage)
+summary(damages_lm)
+
+damage_col <- damage %>% 
+  mutate(warming2 = warming^2)
+
+# Fit quadratic regression model
+damages_quad <-lm(damages ~ warming + warming2, data = damage_col)
+summary(damages_quad)
+
+# How well does the model fit the data
+ggplot(data = damage_col, aes(x = warming, y = damages)) +
+  geom_point(size = 2) +
+  stat_smooth(method = "lm",
+              formula = y ~ x + I(x^2),
+              size = 0.5)
+
+# Full quadratic equation:
+# Damages = 1.95e+13(warming)^2 - 3.019e+12(warming) + 4.198e+12
+# But in the HW it asks us to omit the intercept (4.198e+12)
+# For every one unit of increase in warming, there will be 1.95e+13 more in damages
 ```
 
 
