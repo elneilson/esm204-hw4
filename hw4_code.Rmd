@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(janitor)
 library(here)
+library(ggpubr)
 ```
 
 ```{r}
@@ -40,14 +41,17 @@ summary(damages_quad)
 # How well does the model fit the data
 ggplot(data = damage_col, aes(x = warming, y = damages)) +
   geom_point(size = 2) +
-  stat_smooth(method = "lm",
+  geom_smooth(method = "lm",
               formula = y ~ x + I(x^2),
-              size = 0.5)
+              size = 0.5) +
+  labs(x = "Level of warming (ºC)", y = "Annual total damages ($)") +
+  theme_minimal()
+  
 
 # Full quadratic equation:
 # Damages = 1.95e+13(warming)^2 - 3.019e+12(warming) + 4.198e+12
 # But in the HW it asks us to omit the intercept (4.198e+12)
-# For every one unit of increase in warming, there will be 1.95e+13 more in damages
+# Interpretation: For every one unit of increase in warming, there will be 1.95e+13 more dollars in damages (I THINK... don't know how to accurately describe the terms in a quadratic function)
 ```
 
 
