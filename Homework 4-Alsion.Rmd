@@ -1,0 +1,211 @@
+---
+title: "Homework 4"
+author: " ESM 204 HW 4: Calculating the SCC and policy choice under uncertainty"
+date: "5/28/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(janitor)
+library(here)
+library(ggpubr)
+library(patchwork)
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+# Read in the data
+damage <- read_csv(here("data", "damages.csv")) %>% 
+  clean_names()
+warming <- read_csv(here("data", "warming.csv")) %>% 
+  clean_names()
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+#Question 1
+#dam^2
+damages <- damage %>%
+  mutate(warming2 = warming^2)
+#dam_lm
+dam_lm <- lm(damages ~ warming + warming2, data=damages)
+dam_lm[["coefficients"]][["(Intercept)"]] <- 0
+#plot
+damages_plot <- ggplot(data=damages) +
+  geom_point(aes(x=warming, y=damages)) +
+  stat_smooth(data=damages, aes(x=warming, y=damages)) +
+  theme_bw()
+ damages_plot
+```
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+# Function with our quadratic equation
+damage_function <- function(warming) {
+  damages <- (19500000000000 * warming^2) - (3019000000000 * warming)
+  return(damages)
+}
+
+# Test
+damage_function(0.3022845)
+```
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+# Test, this should input the same # as the last test line but it's slightly off?
+damage_function(warming[1, "warming_baseline"])
+
+# This makes new column with the calculated damages using values from the warming_baseline column
+warming$damage_base <- damage_function(warming$warming_baseline)
+head(warming$damage_base)
+
+# Question 2 plot (1)
+plot_baseline<- 
+  ggplot(data = warming, aes(x = year, y = damage_base)) +
+  geom_point() +
+  labs(x = "Year", y = "Total damages ($)") +
+  theme_minimal()
+
+# Do the same with values from the warming_pulse column
+warming$damage_pulse <- damage_function(warming$warming_pulse)
+head(warming$damage_pulse)
+
+# Question 2 plot (2)
+plot_pulse <- 
+  ggplot(data = warming, aes(x = year, y = damage_pulse)) +
+  geom_point() +
+  labs(x = "Year", y = "Total damages ($)") +
+  theme_minimal()
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+warming_diff <- warming %>% 
+  mutate(damage_diff = (damage_pulse - damage_base))
+
+# Question 2 plot (3)
+plot_difference <-
+ggplot(data = warming_diff, aes(x = year, y = damage_diff)) +
+  geom_point() +
+  labs(x = "Year", y = "Difference in damage ($)") +
+  theme_minimal()
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+# Question 2 Part 4
+warming_diff_norm<- warming_diff %>% 
+  mutate(damage_diff_norm= damage_diff/ 35000000000)
+
+
+# Question 2 Plot 4
+plot_difference_per_ton <-
+  ggplot(data = warming_diff_norm, aes(x = year, y = damage_diff_norm)) +
+ geom_point() +
+ labs(x = "Year", y = " Difference in damage ($ per ton)") +
+theme_minimal()
+
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+# Use Patchwork 
+# need to edit size
+all_plots <- (plot_baseline + plot_pulse) / (plot_difference + plot_difference_per_ton)
+
+all_plots
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+#Question 3
+scc<- warming_diff_norm %>% 
+  mutate(scc_1 = damage_diff/ (1+0.01)^x1,
+         scc_2 = damage_diff/ (1+0.02)^x1,
+         scc_3 = damage_diff/ (1+0.03)^x1,
+         scc_4 = damage_diff/ (1+0.04)^x1,
+         scc_5 = damage_diff/ (1+0.05)^x1,
+         scc1_sum = sum(scc_1),
+         scc2_sum = sum(scc_2),
+         scc3_sum = sum(scc_3),
+         scc4_sum = sum(scc_4),
+         scc5_sum = sum(scc_5)) 
+
+scc_df <- data.frame(c(0.01, 0.02, 0.03, 0.04, 0.05)) %>%
+  cbind(c(scc$scc1_sum[1], scc$scc2_sum[1], scc$scc3_sum[1], scc$scc4_sum[1], scc$scc5_sum[1]))
+colnames(scc_df) <- c("rate", "scc_sum")
+
+scc_plot <- ggplot(data = scc_df) +
+  geom_point(aes(x=rate, y=scc_sum)) +
+  theme_bw()
+scc_plot
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+#Question 4
+rams= 0.001 + (2*0.01) # new r value
+
+scc<- warming_diff_norm %>% 
+  mutate(scc_rams = damage_diff/ (1+rams)^x1,
+          scc_rams_sum = sum(scc_rams))
+         
+ scc_rams_df <- data.frame(c(0.021)) %>%
+  cbind(c(scc$scc_rams_sum[1]))
+colnames(scc_rams_df) <- c("rate", "scc_sum")
+
+scc_rams_plot <- ggplot() +
+  geom_point(data = scc_df,
+             aes(x=rate, y=scc_sum)) +
+  geom_point( data = scc_rams_df, aes( x= rate, y= scc_sum, color="tomato2")) +
+  theme(legend.position = "none") +
+  theme_bw()
+
+scc_rams_plot
+
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+#Question 5
+warming_sub <- warming %>% 
+  select(x1,year,warming_baseline,damage_base) 
+
+prob_dam <- warming_sub %>% 
+  mutate(warming_1.5 = warming_baseline * 1.5)
+
+prob_dam$damage_1.5 <- damage_function(prob_dam$warming_1.5)
+head(prob_dam$damage_1.5)
+
+sum_prob_dam <- prob_dam %>% 
+  mutate(npv_1.5 = damage_1.5/ (1+0.02)^x1,
+         npv_base = damage_base/ (1+0.02)^x1,
+         sum_dam_1.5 = sum(npv_1.5), 
+         sum_dam_base = sum(npv_base),
+         exp_value = ((sum_dam_1.5*0.5)+ (sum_dam_base*0.5)))
+```
+
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+warming5B <- warming %>% 
+  select(x1, year, warming_baseline) %>% 
+  mutate(warming = case_when(
+    year < 2050 ~ warming_baseline,
+    year >= 2050 ~ 1.29),
+    dam_b = (warming*3019000000000) + ((warming)^2*19500000000000),
+    dam_b_sc = dam_b/ (1+0.02)^x1)
+
+ warming_5b_sum <- warming5B %>%  
+ mutate(sum_b_sc = sum(dam_b_sc))
+ 
+```
+
+```{r echo=TRUE,message = FALSE, warning = FALSE}
+# Cost of policy A = Cost of Policy b + x 
+# Need to find how much x could be for it still to make sense to use policy b
+
+#Maximum of x for policy b to still make sense
+exp_value_calc_a <- sum_prob_dam %>% 
+  select(exp_value)
+
+exp_value_calc_b <- warming_5b_sum %>% 
+  select(sum_b_sc)
+
+max_price_x = (exp_value_calc_a -exp_value_calc_b)
+ 
+max_price_x
+```
+If society is risk neutral, policy B would make economic sense as long as it is less than or equal to $1.979412e+15 over the 80 year timeframewfs . If the cost of  implementing policy B is above 1.979412e+15, then policy A would make more economic sense.
+If the society is risk adverse, the maximum price of x could increase because the utility of guaranteed temp. reduction in B is more than the utility of policy a which involves risk. 
+If society is instead risk adverse, society is willing to pay more for poLicy b (up to a certain point) as it eliminates any risk that is present in the business as usual  Policy A. The certain point to which a risk adverse society would switch to policy a would be when the price of x would  the utility of policy of A is greater than the utility of policy B
+if a and b +x are equal the osciety will ooick b as the utility
