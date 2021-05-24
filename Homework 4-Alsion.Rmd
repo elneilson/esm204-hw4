@@ -62,7 +62,7 @@ warming$damage_base <- damage_function(warming$warming_baseline)
 # Question 2 plot (1)
 plot_baseline <- ggplot(data = warming, aes(x = year, y = damage_base)) +
   geom_point(cex = 0.5) +
-  labs(x = "Year", y = "Total damages ($)") +
+  labs(x = "Year", y = "Total damages ($)", title = "Damages without Pulse") +
   theme_minimal()
 
 # Do the same with values from the warming_pulse column
@@ -72,7 +72,7 @@ warming$damage_pulse <- damage_function(warming$warming_pulse)
 # Question 2 plot (2)
 plot_pulse <- ggplot(data = warming, aes(x = year, y = damage_pulse)) +
   geom_point(cex = 0.5) +
-  labs(x = "Year", y = "Total damages ($)") +
+  labs(x = "Year", y = "Total damages ($)", title = "Damages with Pulse") +
   theme_minimal()
 ```
 
@@ -83,7 +83,7 @@ warming_diff <- warming %>%
 # Question 2 plot (3)
 plot_difference <- ggplot(data = warming_diff, aes(x = year, y = damage_diff)) +
   geom_point(cex = 0.5) +
-  labs(x = "Year", y = "Difference in damage ($)") +
+  labs(x = "Year", y = "Difference in damage ($)", title = "Diff. in Damages with Pulse") +
   theme_minimal()
 ```
 
@@ -95,7 +95,7 @@ warming_diff_norm<- warming_diff %>%
 # Question 2 plot (4)
 plot_difference_per_ton <- ggplot(data = warming_diff_norm, aes(x = year, y = damage_diff_norm)) +
   geom_point(cex = 0.5) +
-  labs(x = "Year", y = " Difference in damage ($ per ton)") +
+  labs(x = "Year", y = " Difference in damage ($ per ton)", title = "Diff. in Dmg. with Pulse/ton of CO2") +
   theme_minimal()
 ```
 
@@ -126,7 +126,7 @@ colnames(scc_df) <- c("rate", "scc_sum")
 
 scc_plot <- ggplot(data = scc_df) +
   geom_point(aes(x = rate, y = scc_sum)) +
-  theme_minimal()
+  theme_minimal() + ggtitle("SCC vs. Discount Rates")
 scc_plot
 ```
 
@@ -143,14 +143,14 @@ scc_rams_df <- data.frame(c(0.021)) %>%
 colnames(scc_rams_df) <- c("rate", "scc_sum")
 
 # This line fixes the legend to be what we want the descriptor to say
-cols <- c("Name of what that red dot is supposed to be here" = "tomato2")
+cols <- c("SCC Given the Conditions" = "tomato2")
 
 scc_rams_plot <- ggplot() +
   geom_point(data = scc_df,
              aes(x = rate, y = scc_sum)) +
-  geom_point(data = scc_rams_df, aes(x = rate, y = scc_sum, color = "Name of what that red dot is supposed to be here")) +
+  geom_point(data = scc_rams_df, aes(x = rate, y = scc_sum, color = "SCC Given the Conditions")) +
   theme(legend.title = element_blank()) +
-  theme_minimal()
+  theme_minimal() + ggtitle("SCC vs. Discount Rates")
 scc_rams_plot
 ```
 
@@ -202,9 +202,11 @@ max_price_x = (exp_value_calc_a - exp_value_calc_b)
 #max_price_x
 ```
 
-If society is risk neutral, Policy B would make economic sense as long as it is less than or equal to $1.979412e+15 over the 80 year time frame. If the cost of implementing Policy B is above 1.979412e+15, then Policy A would make more economic sense.
+If society is risk neutral, Policy B would make economic sense as long as it is less than or equal to $1.979412e+15 over the 80 year time frame. If the cost of implementing Policy B is above $1.979412e+15, then Policy A would make more economic sense.
+
 If society is risk averse, the maximum price of x could increase because the utility of guaranteed temperature reduction in Policy B is more than the utility of Policy A which involves risk.
 
-If society is instead risk adverse, society is willing to pay more for PoLicy B (up to a certain point) as it eliminates any risk that is present in the business as usual Policy A. The certain point to which a risk averse society would switch to Policy A would be when the price of x would __ the utility of policy of A is greater than the utility of Policy B
-if A and B + x are equal the society will pick Policy B as the utility.
+If society is instead risk adverse, society is willing to pay more for Policy B (up to a certain point) as it eliminates any risk that is present in the business as usual Policy A. The certain point to which a risk averse society would switch to Policy A would be when the price of x would __ the utility of policy of A is greater than the utility of Policy B.
+
+If A and B + x are equal the society will pick Policy B as the utility.
 
