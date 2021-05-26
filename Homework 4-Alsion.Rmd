@@ -127,8 +127,8 @@ colnames(scc_df) <- c("rate", "scc_sum")
 
 scc_plot <- ggplot(data = scc_df) +
   geom_point(aes(x = rate, y = scc_sum)) +
-  labs(x = "Discount rate", y = "Total SCC through 2100")
-  theme_minimal() + ggtitle("Impact of discount rates on the SCC")
+  labs(x = "Discount rate", y = "Total SCC through 2100", title = "Impact of discount rates on the SCC")
+  theme_minimal()
 scc_plot
 ```
 4. The National Academies of Sciences, Engineering, and Medicine advised the government in a 2017 report to use the Ramsey Rule when discounting within the SCC calculation:
@@ -155,8 +155,8 @@ scc_rams_plot <- ggplot() +
              aes(x = rate, y = scc_sum)) +
   geom_point(data = scc_rams_df, aes(x = rate, y = scc_sum, color = "SCC Given the Conditions")) +
   theme(legend.title = element_blank()) +
-  labs(x = "Discount rate", y = "Total SCC through 2100")
-  theme_minimal() + ggtitle("New SCC Given the Conditions")
+  labs(x = "Discount rate", y = "Total SCC through 2100", title = "New SCC Given the Conditions")
+  theme_minimal()
 scc_rams_plot
 ```
 5. Now suppose there are two possible climate policies that can be pursued. Policy A is business as usual and Policy B is to take immediate and strong action on climate change. Use these facts:
