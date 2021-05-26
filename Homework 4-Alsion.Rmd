@@ -135,7 +135,7 @@ colnames(scc_df) <- c("rate", "scc_sum")
 
 scc_plot <- ggplot(data = scc_df) +
   geom_point(aes(x = rate, y = scc_sum)) +
-  labs(x = "Discount rate", y = "Total SCC through 2100", title = "Impact of discount rates on the SCC")
+  labs(x = "Discount rate", y = "Total SCC through 2100", title = "Impact of discount rates on the SCC") +
   theme_minimal()
 scc_plot
 ```
