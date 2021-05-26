@@ -21,7 +21,7 @@ damage <- read_csv(here("data", "damages.csv")) %>%
 warming <- read_csv(here("data", "warming.csv")) %>% 
   clean_names()
 ```
-
+1. Using damages.csv, estimate a quadratic damage function relating the dollar value of damages to the change in global mean temperature. Omit an intercept term; damages by construction must equal zero when there is no climate change. Plot your estimated damage function, overlaid with a scatterplot of the underlying data.
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Question 1
 damages <- damage %>%
@@ -30,7 +30,7 @@ damages <- damage %>%
 # Quadratic model of damages
 dam_lm <- lm(damages ~ warming + warming2, data = damages)
 dam_lm[["coefficients"]][["(Intercept)"]] <- 0
-
+dam_lm
 # Damages Plot
 damages_plot <- ggplot(data = damages) +
   geom_point(aes(x = warming, y = damages)) +
@@ -43,14 +43,14 @@ damages_plot <- ggplot(data = damages) +
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Function with our quadratic equation
 damage_function <- function(warming) {
-  damages <- (19500000000000 * warming^2) - (3019000000000 * warming)
+  damages <- (19590000000000 * warming^2) - (3019000000000 * warming)
   return(damages)
 }
 
 # Test
 #damage_function(0.3022845)
 ```
-
+2. Use warming.csv and your estimated damage function to predict damages in each year under the baseline climate and the pulse scenario. Make four plots: (1) damages over time without the pulse, (2) damages over time with the pulse, (3) the difference in damages over time that arises from the pulse, and (4) the difference in damages over time from the pulse per ton of CO2 (you can assume that each ton of the pulse causes the same amount of damage).
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Test, this should input the same # as the last test line but it's slightly off?
 #damage_function(warming[1, "warming_baseline"])
@@ -105,6 +105,7 @@ all_plots <- (plot_baseline + plot_pulse) / (plot_difference + plot_difference_p
 
 all_plots
 ```
+3. The SCC is the present discounted value of the stream of future damages caused by one additional ton of CO2. The Obama Administration used a discount rate of 3% to discount damages. Recently, New York State used a discount rate of 2%. Calculate and make a plot of the SCC (y-axis) against the discount rate (x-axis) for a reasonable range of discount rates.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Question 3
@@ -126,9 +127,12 @@ colnames(scc_df) <- c("rate", "scc_sum")
 
 scc_plot <- ggplot(data = scc_df) +
   geom_point(aes(x = rate, y = scc_sum)) +
-  theme_minimal() + ggtitle("SCC vs. Discount Rates")
+  theme_minimal() + ggtitle("Social Cost of Carbon vs. Discount Rates")
 scc_plot
 ```
+4. The National Academies of Sciences, Engineering, and Medicine advised the government in a 2017 report to use the Ramsey Rule when discounting within the SCC calculation:
+r = ρ + ηg
+Using ρ = 0.001, η = 2, and g = 0.01, what is the SCC? Locate this point on your graph from above.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Question 4
@@ -153,6 +157,11 @@ scc_rams_plot <- ggplot() +
   theme_minimal() + ggtitle("SCC vs. Discount Rates")
 scc_rams_plot
 ```
+5. Now suppose there are two possible climate policies that can be pursued. Policy A is business as usual and Policy B is to take immediate and strong action on climate change. Use these facts:
+- If you undertake Policy A there are two possible outcomes. Either warming will occur as in the “baseline” (i.e. “no-pulse”) dataset above (this happens with probability 0.5) or warming each year will be 1.5 times that in the “baseline” dataset (with probability 0.5).
+- Under Policy B, warming will continue until 2050 as in the “baseline” dataset, and then will stabilize at 1.29 degrees and stay that way forever.
+- Society is risk neutral
+- Use a discount rate of 2%
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Question 5
@@ -179,7 +188,7 @@ warming5B <- warming %>%
   mutate(warming = case_when(
     year < 2050 ~ warming_baseline,
     year >= 2050 ~ 1.29),
-    dam_b = (warming*3019000000000) + ((warming)^2*19500000000000),
+    dam_b = (warming*3019000000000) + ((warming)^2*19590000000000),
     dam_b_sc = dam_b/ (1+0.02)^x1)
 
 warming_5b_sum <- warming5B %>%  
