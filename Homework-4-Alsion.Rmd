@@ -53,9 +53,7 @@ damage_function <- function(warming) {
 #damage_function(0.3022845)
 ```
 
-
 2. Use warming.csv and your estimated damage function to predict damages in each year under the baseline climate and the pulse scenario. Make four plots: (1) damages over time without the pulse, (2) damages over time with the pulse, (3) the difference in damages over time that arises from the pulse, and (4) the difference in damages over time from the pulse per ton of CO2 (you can assume that each ton of the pulse causes the same amount of damage).
-
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Test, this should input the same # as the last test line but it's slightly off?
@@ -111,7 +109,6 @@ all_plots <- (plot_baseline + plot_pulse) / (plot_difference + plot_difference_p
 
 all_plots
 ```
-
 
 3. The SCC is the present discounted value of the stream of future damages caused by one additional ton of CO2. The Obama Administration used a discount rate of 3% to discount damages. Recently, New York State used a discount rate of 2%. Calculate and make a plot of the SCC (y-axis) against the discount rate (x-axis) for a reasonable range of discount rates.
 
