@@ -174,6 +174,13 @@ ggplot() +
 - Society is risk neutral
 - Use a discount rate of 2%
 
+A) What is the expected present value of damages up to 2100 under Policy A?
+B)What is the expected present value of damages up to 2100 under Policy B? 
+C)Suppose undertaking Policy
+D)A costs zero and undertaking Policy B costs X. How large could X be for it to still make
+economic sense to pursue Policy B instead of Policy A? 
+E)Qualitatively, how would your answer change if society were risk averse?
+
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Question 5
 warming_sub <- warming %>% 
@@ -221,10 +228,13 @@ max_price_x = (exp_value_calc_a - exp_value_calc_b)
  
 #max_price_x
 ```
+A) The expected present value of damages up to 2100 under Policy A is ___
 
-If society is risk neutral, Policy B would make economic sense as long as it is less than or equal to $1.979412e+15 over the 80 year time frame. If the cost of implementing Policy B is above $1.979412e+15, then Policy A would make more economic sense.
+B) The expected present value of damages up to 2100 under Policy B is __ 
 
-If society is risk averse, the maximum price of x could increase because the utility of guaranteed temperature reduction in Policy B is more than the utility of Policy A which involves risk.
+C) If society is risk neutral, Policy B would make economic sense as long as it is less than or equal to $1.979412e+15 over the 80 year time frame. If the cost of implementing Policy B is above $1.979412e+15, then Policy A would make more economic sense.
+
+D) If society is risk averse, the maximum price of x could increase because the utility of guaranteed temperature reduction in Policy B is more than the utility of Policy A which involves risk.
 
 If society is instead risk adverse, society is willing to pay more for Policy B (up to a certain point) as it eliminates any risk that is present in the business as usual Policy A. The certain point to which a risk averse society would switch to Policy A would be when the price of x would __ the utility of policy of A is greater than the utility of Policy B.
 
