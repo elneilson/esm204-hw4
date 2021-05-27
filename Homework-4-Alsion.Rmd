@@ -228,9 +228,9 @@ max_price_x = (exp_value_calc_a - exp_value_calc_b)
  
 #max_price_x
 ```
-A) The expected present value of damages up to 2100 under Policy A is ___
+A) The expected present value of damages up to 2100 under Policy A is $2.931942e+15
 
-B) The expected present value of damages up to 2100 under Policy B is __ 
+B) The expected present value of damages up to 2100 under Policy B is $9.38138e+14
 
 C) If society is risk neutral, Policy B would make economic sense as long as it is less than or equal to $1.979412e+15 over the 80 year time frame. If the cost of implementing Policy B is above $1.979412e+15, then Policy A would make more economic sense.
 
