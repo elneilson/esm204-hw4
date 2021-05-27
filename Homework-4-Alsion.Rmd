@@ -236,7 +236,7 @@ C) If society is risk neutral, Policy B would make economic sense as long as it 
 
 D) If society is risk averse, the maximum price of x could increase because the utility of guaranteed temperature reduction in Policy B is more than the utility of Policy A which involves risk.
 
-If society is instead risk adverse, society is willing to pay more for Policy B (up to a certain point) as it eliminates any risk that is present in the business as usual Policy A. The certain point to which a risk averse society would switch to Policy A would be when the price of x would __ the utility of policy of A is greater than the utility of Policy B.
+If society is instead risk averse, society is willing to pay more for Policy B (up to a certain point) as it eliminates any risk that is present in the business as usual Policy A. The certain point to which a risk averse society would switch to Policy A would be when the price of x would __ the utility of policy of A is greater than the utility of Policy B.
 
 If A and B + x are equal the society will pick Policy B as the utility.
 
