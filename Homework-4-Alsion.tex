@@ -1,0 +1,469 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={ESM 204 HW 4: Calculating the SCC and policy choice under uncertainty},
+  pdfauthor={Larissa Neilson, Alison Sells, Katelyn Toigo},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{ESM 204 HW 4: Calculating the SCC and policy choice under uncertainty}
+\author{Larissa Neilson, Alison Sells, Katelyn Toigo}
+\date{5/28/2021}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Read in the data}
+\NormalTok{damage <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"damages.csv"}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{clean_names}\NormalTok{()}
+\NormalTok{warming <-}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\KeywordTok{here}\NormalTok{(}\StringTok{"data"}\NormalTok{, }\StringTok{"warming.csv"}\NormalTok{)) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{clean_names}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Using damages.csv, estimate a quadratic damage function relating the
+  dollar value of damages to the change in global mean temperature. Omit
+  an intercept term; damages by construction must equal zero when there
+  is no climate change. Plot your estimated damage function, overlaid
+  with a scatterplot of the underlying data.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Question 1}
+\NormalTok{damages <-}\StringTok{ }\NormalTok{damage }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{warming2 =}\NormalTok{ warming}\OperatorTok{^}\DecValTok{2}\NormalTok{)}
+
+\CommentTok{# Quadratic model of damages}
+\NormalTok{dam_lm <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(damages }\OperatorTok{~}\StringTok{ }\NormalTok{warming }\OperatorTok{+}\StringTok{ }\NormalTok{warming2, }\DataTypeTok{data =}\NormalTok{ damages)}
+\NormalTok{dam_lm[[}\StringTok{"coefficients"}\NormalTok{]][[}\StringTok{"(Intercept)"}\NormalTok{]] <-}\StringTok{ }\DecValTok{0}
+\NormalTok{dam_lm}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = damages ~ warming + warming2, data = damages)
+## 
+## Coefficients:
+## (Intercept)      warming     warming2  
+##   0.000e+00   -3.019e+12    1.959e+13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Damages Plot}
+\NormalTok{damages_plot <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ damages) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ warming, }\DataTypeTok{y =}\NormalTok{ damages)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_smooth}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ damages, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ warming, }\DataTypeTok{y =}\NormalTok{ damages)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Level of warming (ºC)"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Annual total damages ($)"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
+\CommentTok{#damages_plot}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Function with our quadratic equation}
+\NormalTok{damage_function <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(warming) \{}
+\NormalTok{  damages <-}\StringTok{ }\NormalTok{(}\DecValTok{19590000000000} \OperatorTok{*}\StringTok{ }\NormalTok{warming}\OperatorTok{^}\DecValTok{2}\NormalTok{) }\OperatorTok{-}\StringTok{ }\NormalTok{(}\DecValTok{3019000000000} \OperatorTok{*}\StringTok{ }\NormalTok{warming)}
+  \KeywordTok{return}\NormalTok{(damages)}
+\NormalTok{\}}
+
+\CommentTok{# Test}
+\CommentTok{#damage_function(0.3022845)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Use warming.csv and your estimated damage function to predict damages
+  in each year under the baseline climate and the pulse scenario. Make
+  four plots: (1) damages over time without the pulse, (2) damages over
+  time with the pulse, (3) the difference in damages over time that
+  arises from the pulse, and (4) the difference in damages over time
+  from the pulse per ton of CO2 (you can assume that each ton of the
+  pulse causes the same amount of damage).
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Test, this should input the same # as the last test line but it's slightly off?}
+\CommentTok{#damage_function(warming[1, "warming_baseline"])}
+
+\CommentTok{# This makes new column with the calculated damages using values from the warming_baseline column}
+\NormalTok{warming}\OperatorTok{$}\NormalTok{damage_base <-}\StringTok{ }\KeywordTok{damage_function}\NormalTok{(warming}\OperatorTok{$}\NormalTok{warming_baseline)}
+\CommentTok{#head(warming$damage_base)}
+
+\CommentTok{# Question 2 plot (1)}
+\NormalTok{plot_baseline <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ warming, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ year, }\DataTypeTok{y =}\NormalTok{ damage_base)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{cex =} \FloatTok{0.5}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Total damages ($)"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Damages without Pulse"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
+
+\CommentTok{# Do the same with values from the warming_pulse column}
+\NormalTok{warming}\OperatorTok{$}\NormalTok{damage_pulse <-}\StringTok{ }\KeywordTok{damage_function}\NormalTok{(warming}\OperatorTok{$}\NormalTok{warming_pulse)}
+\CommentTok{#head(warming$damage_pulse)}
+
+\CommentTok{# Question 2 plot (2)}
+\NormalTok{plot_pulse <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ warming, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ year, }\DataTypeTok{y =}\NormalTok{ damage_pulse)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{cex =} \FloatTok{0.5}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Total damages ($)"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Damages with Pulse"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{warming_diff <-}\StringTok{ }\NormalTok{warming }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{damage_diff =}\NormalTok{ (damage_pulse }\OperatorTok{-}\StringTok{ }\NormalTok{damage_base))}
+
+\CommentTok{# Question 2 plot (3)}
+\NormalTok{plot_difference <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ warming_diff, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ year, }\DataTypeTok{y =}\NormalTok{ damage_diff)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{cex =} \FloatTok{0.5}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Difference in damage ($)"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Diff. in Damages with Pulse"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Question 2 Part 4}
+\NormalTok{warming_diff_norm<-}\StringTok{ }\NormalTok{warming_diff }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{damage_diff_norm =}\NormalTok{ damage_diff}\OperatorTok{/}\StringTok{ }\DecValTok{35000000000}\NormalTok{)}
+
+\CommentTok{# Question 2 plot (4)}
+\NormalTok{plot_difference_per_ton <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ warming_diff_norm, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ year, }\DataTypeTok{y =}\NormalTok{ damage_diff_norm)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{cex =} \FloatTok{0.5}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Year"}\NormalTok{, }\DataTypeTok{y =} \StringTok{" Difference in damage ($ per ton)"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Diff. in Dmg. with Pulse/ton of CO2"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Use patchwork package}
+\NormalTok{all_plots <-}\StringTok{ }\NormalTok{(plot_baseline }\OperatorTok{+}\StringTok{ }\NormalTok{plot_pulse) }\OperatorTok{/}\StringTok{ }\NormalTok{(plot_difference }\OperatorTok{+}\StringTok{ }\NormalTok{plot_difference_per_ton)}
+
+\NormalTok{all_plots}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Homework-4-Alsion_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  The SCC is the present discounted value of the stream of future
+  damages caused by one additional ton of CO2. The Obama Administration
+  used a discount rate of 3\% to discount damages. Recently, New York
+  State used a discount rate of 2\%. Calculate and make a plot of the
+  SCC (y-axis) against the discount rate (x-axis) for a reasonable range
+  of discount rates.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Question 3}
+\NormalTok{scc <-}\StringTok{ }\NormalTok{warming_diff_norm }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{scc_1 =}\NormalTok{ damage_diff}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.01}\NormalTok{)}\OperatorTok{^}\NormalTok{x1,}
+         \DataTypeTok{scc_2 =}\NormalTok{ damage_diff}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.02}\NormalTok{)}\OperatorTok{^}\NormalTok{x1,}
+         \DataTypeTok{scc_3 =}\NormalTok{ damage_diff}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.03}\NormalTok{)}\OperatorTok{^}\NormalTok{x1,}
+         \DataTypeTok{scc_4 =}\NormalTok{ damage_diff}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.04}\NormalTok{)}\OperatorTok{^}\NormalTok{x1,}
+         \DataTypeTok{scc_5 =}\NormalTok{ damage_diff}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.05}\NormalTok{)}\OperatorTok{^}\NormalTok{x1,}
+         \DataTypeTok{scc1_sum =} \KeywordTok{sum}\NormalTok{(scc_}\DecValTok{1}\NormalTok{),}
+         \DataTypeTok{scc2_sum =} \KeywordTok{sum}\NormalTok{(scc_}\DecValTok{2}\NormalTok{),}
+         \DataTypeTok{scc3_sum =} \KeywordTok{sum}\NormalTok{(scc_}\DecValTok{3}\NormalTok{),}
+         \DataTypeTok{scc4_sum =} \KeywordTok{sum}\NormalTok{(scc_}\DecValTok{4}\NormalTok{),}
+         \DataTypeTok{scc5_sum =} \KeywordTok{sum}\NormalTok{(scc_}\DecValTok{5}\NormalTok{)) }
+
+\NormalTok{scc_df <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.02}\NormalTok{, }\FloatTok{0.03}\NormalTok{, }\FloatTok{0.04}\NormalTok{, }\FloatTok{0.05}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{cbind}\NormalTok{(}\KeywordTok{c}\NormalTok{(scc}\OperatorTok{$}\NormalTok{scc1_sum[}\DecValTok{1}\NormalTok{], scc}\OperatorTok{$}\NormalTok{scc2_sum[}\DecValTok{1}\NormalTok{], scc}\OperatorTok{$}\NormalTok{scc3_sum[}\DecValTok{1}\NormalTok{], scc}\OperatorTok{$}\NormalTok{scc4_sum[}\DecValTok{1}\NormalTok{], scc}\OperatorTok{$}\NormalTok{scc5_sum[}\DecValTok{1}\NormalTok{]))}
+\KeywordTok{colnames}\NormalTok{(scc_df) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"rate"}\NormalTok{, }\StringTok{"scc_sum"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ scc_df) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ rate, }\DataTypeTok{y =}\NormalTok{ scc_sum)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Discount rate"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Total SCC through 2100"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"Impact of discount rates on the SCC"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Homework-4-Alsion_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  The National Academies of Sciences, Engineering, and Medicine advised
+  the government in a 2017 report to use the Ramsey Rule when
+  discounting within the SCC calculation: r = ρ + ηg Using ρ = 0.001, η
+  = 2, and g = 0.01, what is the SCC? Locate this point on your graph
+  from above.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Question 4}
+\NormalTok{rams =}\StringTok{ }\FloatTok{0.001} \OperatorTok{+}\StringTok{ }\NormalTok{(}\DecValTok{2}\OperatorTok{*}\FloatTok{0.01}\NormalTok{) }\CommentTok{# new r value}
+
+\NormalTok{scc<-}\StringTok{ }\NormalTok{warming_diff_norm }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{scc_rams =}\NormalTok{ damage_diff}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1} \OperatorTok{+}\StringTok{ }\NormalTok{rams)}\OperatorTok{^}\NormalTok{x1,}
+          \DataTypeTok{scc_rams_sum =} \KeywordTok{sum}\NormalTok{(scc_rams))}
+         
+\NormalTok{scc_rams_df <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\FloatTok{0.021}\NormalTok{)) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{cbind}\NormalTok{(}\KeywordTok{c}\NormalTok{(scc}\OperatorTok{$}\NormalTok{scc_rams_sum[}\DecValTok{1}\NormalTok{]))}
+\KeywordTok{colnames}\NormalTok{(scc_rams_df) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"rate"}\NormalTok{, }\StringTok{"scc_sum"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# This line fixes the legend to be what we want the descriptor to say}
+\NormalTok{cols <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"New SCC"}\NormalTok{ =}\StringTok{ "tomato2"}\NormalTok{)}
+
+\KeywordTok{ggplot}\NormalTok{() }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ scc_df,}
+             \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ rate, }\DataTypeTok{y =}\NormalTok{ scc_sum)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ scc_rams_df, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ rate, }\DataTypeTok{y =}\NormalTok{ scc_sum, }\DataTypeTok{color =} \StringTok{"SCC Given the Conditions"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{legend.title =} \KeywordTok{element_blank}\NormalTok{()) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Discount rate"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Total SCC through 2100"}\NormalTok{, }\DataTypeTok{title =} \StringTok{"New SCC Given the Conditions"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{theme_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Homework-4-Alsion_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Now suppose there are two possible climate policies that can be
+  pursued. Policy A is business as usual and Policy B is to take
+  immediate and strong action on climate change. Use these facts:
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
+\item
+  If you undertake Policy A there are two possible outcomes. Either
+  warming will occur as in the ``baseline'' (i.e.~``no-pulse'') dataset
+  above (this happens with probability 0.5) or warming each year will be
+  1.5 times that in the ``baseline'' dataset (with probability 0.5).
+\item
+  Under Policy B, warming will continue until 2050 as in the
+  ``baseline'' dataset, and then will stabilize at 1.29 degrees and stay
+  that way forever.
+\item
+  Society is risk neutral
+\item
+  Use a discount rate of 2\%
+\end{itemize}
+
+\begin{enumerate}
+\def\labelenumi{\Alph{enumi})}
+\tightlist
+\item
+  What is the expected present value of damages up to 2100 under Policy
+  A? B)What is the expected present value of damages up to 2100 under
+  Policy B? C)Suppose undertaking Policy D)A costs zero and undertaking
+  Policy B costs X. How large could X be for it to still make economic
+  sense to pursue Policy B instead of Policy A? E)Qualitatively, how
+  would your answer change if society were risk averse?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Question 5}
+\CommentTok{# Since There are two policy outcomes for A, we need to figure out the expected present value for each and multiply each potential outcome by their respective probabilities }
+\NormalTok{warming_sub <-}\StringTok{ }\NormalTok{warming }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(x1,year, warming_baseline, damage_base) }
+
+\NormalTok{prob_dam <-}\StringTok{ }\NormalTok{warming_sub }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{warming_1.5 =}\NormalTok{ warming_baseline }\OperatorTok{*}\StringTok{ }\FloatTok{1.5}\NormalTok{)}
+
+\NormalTok{prob_dam}\OperatorTok{$}\NormalTok{damage_}\FloatTok{1.5}\NormalTok{ <-}\StringTok{ }\KeywordTok{damage_function}\NormalTok{(prob_dam}\OperatorTok{$}\NormalTok{warming_}\FloatTok{1.5}\NormalTok{)}
+\CommentTok{#head(prob_dam$damage_1.5)}
+
+\NormalTok{sum_prob_dam <-}\StringTok{ }\NormalTok{prob_dam }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{npv_1.5 =}\NormalTok{ damage_}\FloatTok{1.5}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.02}\NormalTok{)}\OperatorTok{^}\NormalTok{x1,}
+         \DataTypeTok{npv_base =}\NormalTok{ damage_base}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.02}\NormalTok{)}\OperatorTok{^}\NormalTok{x1,}
+         \DataTypeTok{sum_dam_1.5 =} \KeywordTok{sum}\NormalTok{(npv_}\FloatTok{1.5}\NormalTok{), }
+         \DataTypeTok{sum_dam_base =} \KeywordTok{sum}\NormalTok{(npv_base),}
+         \DataTypeTok{exp_value =}\NormalTok{ ((sum_dam_}\FloatTok{1.5}\OperatorTok{*}\FloatTok{0.5}\NormalTok{)}\OperatorTok{+}\StringTok{ }\NormalTok{(sum_dam_base}\OperatorTok{*}\FloatTok{0.5}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{warming5B <-}\StringTok{ }\NormalTok{warming }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(x1, year, warming_baseline) }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{warming =} \KeywordTok{case_when}\NormalTok{(}
+\NormalTok{    year }\OperatorTok{<}\StringTok{ }\DecValTok{2050} \OperatorTok{~}\StringTok{ }\NormalTok{warming_baseline,}
+\NormalTok{    year }\OperatorTok{>=}\StringTok{ }\DecValTok{2050} \OperatorTok{~}\StringTok{ }\FloatTok{1.29}\NormalTok{),}
+    \DataTypeTok{dam_b =}\NormalTok{ (warming}\OperatorTok{*}\DecValTok{3019000000000}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{((warming)}\OperatorTok{^}\DecValTok{2}\OperatorTok{*}\DecValTok{19590000000000}\NormalTok{),}
+    \DataTypeTok{dam_b_sc =}\NormalTok{ dam_b}\OperatorTok{/}\StringTok{ }\NormalTok{(}\DecValTok{1}\FloatTok{+0.02}\NormalTok{)}\OperatorTok{^}\NormalTok{x1)}
+
+\NormalTok{warming_5b_sum <-}\StringTok{ }\NormalTok{warming5B }\OperatorTok{%>%}\StringTok{  }
+\StringTok{ }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{sum_b_sc =} \KeywordTok{sum}\NormalTok{(dam_b_sc))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Cost of Policy A = Cost of Policy B + x }
+\CommentTok{# Need to find how much x could be for it still to make sense to use Policy B}
+
+\CommentTok{# Maximum of x for Policy B to still make sense}
+\NormalTok{exp_value_calc_a <-}\StringTok{ }\NormalTok{sum_prob_dam }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(exp_value)}
+
+\NormalTok{exp_value_calc_b <-}\StringTok{ }\NormalTok{warming_5b_sum }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\KeywordTok{select}\NormalTok{(sum_b_sc)}
+
+\NormalTok{max_price_x =}\StringTok{ }\NormalTok{(exp_value_calc_a }\OperatorTok{-}\StringTok{ }\NormalTok{exp_value_calc_b)}
+ 
+\CommentTok{#max_price_x}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\Alph{enumi})}
+\item
+  The expected present value of damages up to 2100 under Policy A is
+  \$2.931942e+15
+\item
+  The expected present value of damages up to 2100 under Policy B is
+  \$9.38138e+14
+\item
+  If society is risk neutral, Policy B would make economic sense as long
+  as it is less than or equal to \$1.979412e+15 over the 80 year time
+  frame. If the cost of implementing Policy B is above \$1.979412e+15,
+  then Policy A would make more economic sense.
+\item
+  If society is risk averse, the maximum price of x could increase
+  because the utility of guaranteed temperature reduction in Policy B is
+  more than the utility of Policy A which involves risk.
+\end{enumerate}
+
+If society is instead risk averse, society is willing to pay more for
+Policy B (up to a certain point) as it eliminates any risk that is
+present in the business as usual Policy A. The certain point to which a
+risk averse society would switch to Policy A would be when the price of
+x would \_\_ the utility of policy of A is greater than the utility of
+Policy B.
+
+If A and B + x are equal the society will pick Policy B as the utility.
+
+\end{document}

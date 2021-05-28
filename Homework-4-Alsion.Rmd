@@ -1,8 +1,10 @@
 ---
-title: "ESM 204 HW 4: Calculating the SCC and policy choice under uncertainty"
+title: 'ESM 204 HW 4: Calculating the SCC and policy choice under uncertainty'
 author: "Larissa Neilson, Alison Sells, Katelyn Toigo"
 date: "5/28/2021"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -92,7 +94,7 @@ plot_difference <- ggplot(data = warming_diff, aes(x = year, y = damage_diff)) +
 ```
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
-# Question 2 Part 4
+# Question 2 Part 4 
 warming_diff_norm<- warming_diff %>% 
   mutate(damage_diff_norm = damage_diff/ 35000000000)
 
@@ -114,6 +116,7 @@ all_plots
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
 # Question 3
+# Accounting for various discount rates
 scc <- warming_diff_norm %>% 
   mutate(scc_1 = damage_diff/ (1+0.01)^x1,
          scc_2 = damage_diff/ (1+0.02)^x1,
@@ -183,6 +186,7 @@ E)Qualitatively, how would your answer change if society were risk averse?
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE}
 # Question 5
+# Since There are two policy outcomes for A, we need to figure out the expected present value for each and multiply each potential outcome by their respective probabilities 
 warming_sub <- warming %>% 
   select(x1,year, warming_baseline, damage_base) 
 
@@ -234,9 +238,7 @@ B) The expected present value of damages up to 2100 under Policy B is $9.38138e+
 
 C) If society is risk neutral, Policy B would make economic sense as long as it is less than or equal to $1.979412e+15 over the 80 year time frame. If the cost of implementing Policy B is above $1.979412e+15, then Policy A would make more economic sense.
 
-D) If society is risk averse, the maximum price of x could increase because the utility of guaranteed temperature reduction in Policy B is more than the utility of Policy A which involves risk.
+D) If society is risk averse, the maximum price of x could increase because the utility of guaranteed temperature reduction in Policy B is more than the utility of Policy A which involves risk. Another way of saying this is that if society is instead risk averse, they are willing to pay more for Policy B  as it eliminates any risk that is present in the business as usual Policy A. This goes beyond the  scope of the question but depending on how risk averse the given society is, there is a certain point where even a risk averse society would switch to Policy A even though that option includes risk . 
 
-If society is instead risk averse, society is willing to pay more for Policy B (up to a certain point) as it eliminates any risk that is present in the business as usual Policy A. The certain point to which a risk averse society would switch to Policy A would be when the price of x would __ the utility of policy of A is greater than the utility of Policy B.
 
-If A and B + x are equal the society will pick Policy B as the utility.
 
