@@ -3,8 +3,13 @@ title: 'ESM 204 HW 4: Calculating the SCC and policy choice under uncertainty'
 author: "Larissa Neilson, Alison Sells, Katelyn Toigo"
 date: "5/28/2021"
 output:
+<<<<<<< HEAD
   html_document: default
   pdf_document: default
+=======
+  pdf_document: default
+  html_document: default
+>>>>>>> f1b74c07873ae6f283052ee75ccf8f71a2b1d1c7
 ---
 
 ```{r setup, include=FALSE}
@@ -142,8 +147,8 @@ ggplot(data = scc_df) +
 ```
 
 4. The National Academies of Sciences, Engineering, and Medicine advised the government in a 2017 report to use the Ramsey Rule when discounting within the SCC calculation:
-r = ρ + ηg
-Using ρ = 0.001, η = 2, and g = 0.01, what is the SCC? Locate this point on your graph from above.
+r = p + ng
+Using p = 0.001, n = 2, and g = 0.01, what is the SCC? Locate this point on your graph from above.
 
 ```{r echo = TRUE, message = FALSE, warning = FALSE, results = 'hide'}
 # Question 4
